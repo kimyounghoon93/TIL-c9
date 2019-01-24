@@ -18,6 +18,16 @@ from django.urls import path
 from pages import views
 
 urlpatterns = [
+    path('bootstrap/', views.bootstrap),
+    path('naver/', views.naver),
+    path('catch/', views.catch),
+    path('throw/', views.throw),
+    path('opgg/<str:nick>', views.opgg),
+    # 꺽쇠는 주소를 변동가능하게 안할거면 안써도 됨
+    path('personalities/', views.personalities),
+    # 동적인 주소 <str:name>
+    path('hello/<str:name>/', views.hello),
+    path('dinner/', views.dinner),
     path('index/', views.index),
     path('admin/', admin.site.urls),
 ]
