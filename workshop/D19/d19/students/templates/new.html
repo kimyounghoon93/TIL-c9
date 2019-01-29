@@ -8,13 +8,20 @@
 </head>
 <body>
     <!-- 장고는 슬레쉬 꼭 넣어주어야 한다 <form action="/posts/create/" method="post"> -->
-    <form action="/posts/create/" method="post"> 
+    <!-- method -->
+    <form action="/students/create/" method="post"> 
     <!-- post를 사용하면 보안상 장점이 있음 주소창에 세부 내용이 안뜸 {% csrf_token %} 도 같이 써야 하는데 보안상의 목적으로 사용함,
     다른 사이트에서 우리 사이트에 글을 작성하는 것을 막음, 피아식별 가능하게 함 -->
         {% csrf_token %}
-        <input type="text" name="title"/>
-        <input type="text" name="content"/>
-        <input type="submit" value="Submit"/>
+        이름<input type="text" name="name"/>
+        <br>
+        이메일<input type="text" name="email"/>
+        <br>
+        생년월일<input type="date" name="birthday"/>
+        <br>
+        나이<input type="number" name="age"/>
+        <br>
+        <input type="submit" name="submit"/>
     </form>
 </body>
 </html>

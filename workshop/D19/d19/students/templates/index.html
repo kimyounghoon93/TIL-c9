@@ -10,10 +10,10 @@
     <h1>
         Post Index
     </h1>
-    <a href="/posts/new/">New</a>
+    <a href="/students/new/">New</a>
     <ul>
-    {% for post in posts %}
-        <li><a href="/posts/{{post.pk}}/">{{ post.title }}</a></li>
+    {% for student in students %}
+        <li><a href="/students/{{student.pk}}/">{{ student.name }}</a></li>
     {% endfor %}
     </ul>
 </body>
