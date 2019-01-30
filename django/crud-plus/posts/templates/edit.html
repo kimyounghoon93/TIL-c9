@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Post Edit</h1>
+    <form action="{% url 'posts:update' post.pk %}" method="post">
+        <!-- 포스트 요청을 하여 추가해주는 것! -->
+        {% csrf_token %}
+        <input type="text" name="title" value="{{ post.title }}"/>
+        <input type="text" name="content" value="{{ post.content }}"/>
+        <input type="submit" value="Submit"/>
+    </form>
+</body>
+</html>
