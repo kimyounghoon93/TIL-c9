@@ -15,5 +15,21 @@
     <a href="{% url 'posts:list' %}">List</a>
     <a href="{% url 'posts:edit' post.pk %}">Edit</a>
     <a href="{% url 'posts:delete' post.pk %}">Delete</a>
+    
+    <hr>
+    
+    <form action="{% url 'posts:comments_create' post.pk %}" method="post">
+        {% csrf_token %}
+        댓글 : <input type="text" name="content"/>
+        <input type="submit" value="Submit"/>
+    </form>
+    
+    <ul>
+                <!-- 파이썬과 다르게 all뒤에 ()를 사용하지 않는다 -->
+        {% for comment in post.comment_set.all %}
+            <li> {{ comment.content }} - <a href="{% url 'posts:comments_delete' post.pk comment.pk %}">Delete</a> </li>
+        {% endfor %}
+    </ul>
+    
 </body>
 </html>
