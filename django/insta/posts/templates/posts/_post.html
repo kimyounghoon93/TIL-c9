@@ -3,8 +3,13 @@
   <img src="{{ post.image.url }}" class="card-img-top" alt="<post class="image"></post>">
   {% endif %}
   <div class="card-body">
+    <div class-header>
+      <span>{{ post.user.username }}</span>
+    </div>
     <p class="card-text">{{ post.content }}</p>
+    {% if post.user == user %}
     <a href="{% url 'posts:update' post.id %}" class="btn btn-primary">Edit</a>
     <a href="{% url 'posts:delete' post.id %}" class="btn btn-danger">Delete</a>
+    {% endif %}
   </div>
 </div>
