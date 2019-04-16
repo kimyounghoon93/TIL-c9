@@ -129,3 +129,5 @@ STATIC_URL = '/static/'
 # Media
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+                # 앱이름 # 안에있는 클레스 유저
+AUTH_USER_MODEL = 'accounts.User'
