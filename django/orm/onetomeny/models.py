@@ -47,7 +47,7 @@ class Comment(models.Model):
 
 # 3. 2번 댓글을 쓴 사람은?
 # c2.user
-# <User: User object (4)>
+# <User: User object (2)>
 
 # 4. 2번 댓글을 쓴 사람이 작성한 게시글은?
 # c2.user.post_set.all()
@@ -69,3 +69,7 @@ class Comment(models.Model):
 
 # 8. 댓글 중에 해당 게시글의 제목에 '1'이 들어가 있는 것은?
 # Comment.objects.filter(post__title__contains='1')
+
+# 병원에 오는 사람들을 기록하는 시스템을 만드려고 한다.
+# 필수적인 모델은 환자와 의사이다.
+# 어떠한 관계로 표현할 수 있을까?
