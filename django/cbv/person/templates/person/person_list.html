@@ -7,11 +7,14 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Movie Create</h1>
-    <form>
-        {{ movie_form }}
-        <!--이렇게 하면 쪼개서 사용 가능 (이건 타이틀의 인풋만 나옴) {{ movie_form.title }}-->
-        <input type="submit" value="Submit"/>
-    </form>
+    <h1>Person List</h1>
+    <a href="{% url 'person:create' %}">New Person</a>
+    <ul>
+        {% for person in persons %}
+        <li>
+            {{ person.last_name }} - {{ person.email }} - {{ person.age }}
+        </li>
+        {% endfor %}
+    </ul>
 </body>
 </html>
