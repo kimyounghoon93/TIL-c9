@@ -1,6 +1,6 @@
 # 장고에서 forms 템플릿을 받아옴
 from django import forms
-from .models import Movie
+from .models import Movie, Comment
             # forms에 있는 ModelFormd을 상속받음
 # 아래의 폼은 파이썬 코드를 html 코드로 만들어준다
 class MovieForm(forms.ModelForm):
@@ -15,3 +15,8 @@ class MovieForm(forms.ModelForm):
         fields = ['title']
         # 반대로 모든 정보를 다 받아오기 위해서는 아래처럼
         # fields = '__all__'
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['content',]

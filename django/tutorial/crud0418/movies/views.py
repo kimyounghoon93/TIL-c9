@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import MovieForm
-from .models import Movie
+from .forms import MovieForm, CommentForm
+from .models import Movie, Comment
 from django.views.decorators.http import require_POST
 # Create your views here.
 def create(request):
@@ -25,7 +25,8 @@ def create(request):
 
 def detail(request, movie_id): # urls.py에 <int:movie_id>와 이름이 같아야 됨
     movie = get_object_or_404(Movie, id=movie_id)
-    return render(request, 'movies/detail.html', {'movie': movie})
+    form = CommentForm()
+    return render(request, 'movies/detail.html', {'movie': movie, 'form': form})
 
 def list(request):
     movies = Movie.objects.all()
@@ -53,3 +54,25 @@ def delete(request, movie_id):
     movie = get_object_or_404(Movie, id=movie_id)
     movie.delete()
     return redirect('movies:list')
+
+@require_POST    
+def comments_create(request, movie_id):
+    
+    # 댓글을 크리에이트 해야하기 때문에
+    form = CommentForm(request.POST)
+    if form.is_valid():
+        comment = form.save(commit=False)
+        # comment.movie #=> movie object
+        # comment.movie = get_object_or_404(Movie, id = movie_id) << 해당 방법은 무비 아이디를 한 번 더 찾아야 해서 일을 많이 하게 된다.
+        # comment.movie_id #=> Integer
+        # comment.movie는 장고 orm이 만들어 준 값
+        comment.movie_id = movie_id
+        comment.save()
+        return redirect('movies:detail', movie_id)
+        
+@require_POST
+def comments_delete(request, movie_id, comment_id):
+    comment = get_object_or_404(Comment, id=comment_id)
+    comment.delete()
+    
+    return redirect('movies:detail', movie_id)

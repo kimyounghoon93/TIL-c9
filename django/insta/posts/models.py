@@ -24,7 +24,7 @@ class Image(models.Model):
                     format='JPEG', # 저장 포멧
                     options={'quality':90}, # 옵션
         )
-        
+
 class Comment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)

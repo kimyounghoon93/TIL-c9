@@ -5,6 +5,7 @@ from .forms import PostForm, CommentForm, ImageFormSet
 from .models import Post, Comment
 from django.db import transaction
 from itertools import chain
+from django.http import JsonResponse
 # Create your views here.
 
 def explore(request):
@@ -22,7 +23,7 @@ def list(request):
     followings = request.user.followings.all()
     # 2. 내 followings 변수와 나를 묶음
     followings = chain(followings,[request.user])
-    # 2. 이 사람들이 작성한 Post들만 뽑아옴.
+    # 2. 내가 팔로우한 사람들이 작성한 Post들만 뽑아옴.
     posts = Post.objects.filter(user__in=followings).order_by('-id')
     comment_form = CommentForm()
     return render(request, 'posts/list.html', {'posts': posts, 'comment_form': comment_form})
@@ -97,7 +98,13 @@ def comment_create(request, post_id):
         comment.user = request.user
         comment.post_id = post_id
         comment.save()
-    return redirect('posts:list')
+    # return redirect('posts:list')
+    return JsonResponse({
+                        'id': comment.id, 
+                        'postId': post_id,
+                        'username': comment.user.username,
+                        'content': comment.content,
+    })
     
 @require_http_methods(['GET','POST'])
 def comment_delete(request, post_id, comment_id):
@@ -113,8 +120,10 @@ def like(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     
     if request.user in post.like_users.all():
-        post.like_users.remove(request.user)    
+        post.like_users.remove(request.user)
+        liked = False
     else:
         post.like_users.add(request.user)
-    return redirect('posts:list')
-    
+        liked = True
+    # return redirect('posts:list')
+    return JsonResponse({'liked': liked, 'count': post.like_users.count()})

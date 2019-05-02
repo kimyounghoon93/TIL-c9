@@ -17,5 +17,27 @@
         
         <input type="submit" value="Delete"/>
     </form>
+    
+    <hr>
+    <ul>
+        {% for comment in movie.comment_set.all %}
+        <li>
+            {{ comment.content }}
+            <form action="{% url 'movies:comments_delete' movie.id comment.id %}" method="POST">
+    
+                {% csrf_token %}
+                
+                <input type="submit" value="Delete"/>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+    
+    <form action="{% url 'movies:comments_create' movie.id %}" method="POST">
+                                <!-- /movies/1/comments/create/ -->
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Submit"/>
+    </form>
 </body>
 </html>

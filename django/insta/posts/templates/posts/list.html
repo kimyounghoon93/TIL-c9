@@ -10,4 +10,58 @@
 
 {% endfor %}
 
+<script>
+    const likeButtons = document.querySelectorAll('.like-button')
+    likeButtons.forEach(function(button){
+        button.addEventListener('click', function(event){
+            console.log(event)
+            const postId = event.target.dataset.id
+            axios.get(`/posts/${postId}/like/`)
+                    .then(function(response){
+                        // console.log(request)
+                        // response.data // {liked: true, count: 1}
+                        document.querySelector(`#like-count-${postId}`).innerText = response.data.count
+                        if (response.data.liked) {
+                            event.target.classList.remove('far')
+                            event.target.classList.add('fas')
+                        } else{
+                            event.target.classList.remove('fas')
+                            event.target.classList.add('far')
+                        }
+                    })
+            
+        })
+    })
+    
+    // 댓글을 쓰는 창은 여러개이기 때문에 All을 썼고 Forms로 선언하였다
+    const commentForms = document.querySelectorAll('.comment-form')
+    commentForms.forEach(function(form){
+        form.addEventListener('submit', function(event){
+            event.preventDefault()
+            console.log(event)
+            // event.target === form
+            // 두개가 같고 form을 쓸수는 있지만 event.target을 사용한다
+            // new === 바구니역할(class(데이터))
+            const data = new FormData(event.target)
+            // Inspect FormData
+            // for (const item of data.entries()){
+            //     const.log(item)
+            // }
+            axios.post(event.target.action, data)
+                    .then(function(response){
+                        // console.log(response)
+                        const comment = response.data
+                        const commentList = document.querySelector(`#comment-list-${comment.postId}`)
+                        const newComment = `<div class="card-text">
+                            <strong>${comment.username}</strong> ${comment.content}
+                            <a href="/posts/${comment.postId}/comments/${comment.id}/delete/">삭제</a>
+                        </div>`
+                        commentList.insertAdjacentHTML('beforeend', newComment)
+                        event.target.reset()
+                    })
+        })
+    })
+    
+</script>
+
 {% endblock %}
